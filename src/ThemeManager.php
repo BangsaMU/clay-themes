@@ -4,7 +4,7 @@ namespace Bangsamu\Theme;
 
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
-use Bangsamu\Master\Models\Setting;
+use Bangsamu\Master\Models\CmsSetting;
 
 class ThemeManager
 {
@@ -28,7 +28,7 @@ class ThemeManager
 
         // cache DB lookup
         $this->theme = Cache::remember('theme_active', config('theme.cache_ttl'), function () {
-            return Setting::where('name', 'theme')->value('value') ?? config('theme.default');
+            return CmsSetting::where('name', 'theme')->where('category', 'theme')->value('value') ?? config('theme.default');
         });
 
         Session::put('theme', $this->theme);
